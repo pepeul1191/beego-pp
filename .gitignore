@@ -30,9 +30,9 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 
-/public/bower_components
+/static/bower_components
 /node_modules
 package-lock.json
-/public/dist/
+/static/dist/
 .DS_Store
 *-pp
