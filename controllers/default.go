@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/astaxie/beego"
 	resty "gopkg.in/resty.v1"
 )
@@ -30,10 +28,9 @@ func (c *MainController) Get() {
 func (c *MainController) Post() {
 	resp, err := resty.R().Get("http://localhost:3000/departamento/listar")
 	if err != nil {
-		c.Data["json"] = "Error: No se puede conectar contra el servicio"
+		c.Ctx.Output.Status = 500
+		c.Ctx.Output.Body([]byte("Error: No se puede conectar contra el servicio"))
 	} else {
-		fmt.Println(resp)
-		c.Data["json"] = resp.String()
+		c.Ctx.Output.Body([]byte(resp.String()))
 	}
-	c.ServeFormatted()
 }
