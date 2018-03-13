@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/astaxie/beego"
+	resty "gopkg.in/resty.v1"
 )
 
 type MainController struct {
@@ -9,7 +12,7 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Data["title"] = "Home"
+	c.Data["HeadTitle"] = "Home"
 	c.Data["Website"] = "beego.me"
 	c.Data["Email"] = "astaxie@gmail.com"
 	c.Data["CSSs"] = []string{
@@ -22,4 +25,15 @@ func (c *MainController) Get() {
 	}
 	c.Layout = "layouts/blank.tpl"
 	c.TplName = "home/index.tpl"
+}
+
+func (c *MainController) Post() {
+	resp, err := resty.R().Get("http://localhost:3000/departamento/listar")
+	if err != nil {
+		c.Data["json"] = "Error: No se puede conectar contra el servicio"
+	} else {
+		fmt.Println(resp)
+		c.Data["json"] = resp.String()
+	}
+	c.ServeFormatted()
 }
